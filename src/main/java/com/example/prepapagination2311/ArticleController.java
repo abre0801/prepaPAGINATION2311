@@ -12,32 +12,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@RestController
+@RequestMapping("/articles")
+public class ArticleController {
+    @Autowired
+    private ArticleRepository articleRepository;
 
-    @RestController
-    @RequestMapping("/articles")
-    public class ArticleController {
-        @Autowired
-        private ArticleRepository articleRepository;
-//PAGINATION
-        @GetMapping
-        public ResponseEntity<Page<Article>> getArticles(Pageable pageable) {
-            Page<Article> articles = articleRepository.findAll(pageable);
-            return new ResponseEntity<>(articles, HttpStatus.OK);
-        }
-//TRI ET PAGINATION
-        @GetMapping
-        public ResponseEntity<Page<Article>> getArticles(
-                @RequestParam(defaultValue = "0") int page,
-                @RequestParam(defaultValue = "10") int size,
-                @RequestParam(defaultValue = "title") String sortBy,
-                @RequestParam(defaultValue = "asc") String sortDirection) {
+    @GetMapping
+    public ResponseEntity<Page<Article>> getArticles(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "title") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortDirection) {
 
-            Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
-            Pageable pageable = PageRequest.of(page, size, sort);
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
 
-            Page<Article> articles = articleRepository.findAll(pageable);
-            return new ResponseEntity<>(articles, HttpStatus.OK);
-        }
+        Page<Article> articles = articleRepository.findAll(pageable);
+        return new ResponseEntity<>(articles, HttpStatus.OK);
     }
-
+}
 
