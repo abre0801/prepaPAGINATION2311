@@ -21,7 +21,7 @@ public class ArticleController {
     @GetMapping
     public ResponseEntity<Page<Article>> getArticles(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "5") int size,
             @RequestParam(defaultValue = "title") String sortBy,
             @RequestParam(defaultValue = "asc") String sortDirection) {
 
